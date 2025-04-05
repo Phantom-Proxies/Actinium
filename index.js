@@ -5,7 +5,7 @@ const { URL } = require('url');
 const { pipeline } = require('stream').promises;
 
 const app = express();
-const PORT = process.env.PORT || 6969;
+const PORT = process.env.PORT || 80;
 const PROXY_ROUTE = '/proxy';
 
 app.use(express.static('public'));
