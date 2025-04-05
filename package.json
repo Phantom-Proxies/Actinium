@@ -2,9 +2,9 @@
   "name": "Actinium",
   "version": "1.0.0",
   "description": "Actinium is completely stand-alone, and fast proxy made by Phantom Network.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "author": "dyamuh + bitonicdev",
   "license": "MIT",
