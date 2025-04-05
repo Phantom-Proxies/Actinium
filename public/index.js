@@ -329,7 +329,7 @@
         }
       });
       const baseMessages = [
-        "Actinium is completely stand-alone, and much faster than other proxy networks!",
+        "Actinium is one of the only proxies to not rely upon Ultraviolet or others.",
         "Actinium supports routing traffic through TOR nodes (the dark web)!",
         "Actinium encrypts all internet traffic, ensuring that you stay undetected and secure.",
         "Actinium is highly optimized, sometimes faster than if you didn't use a proxy!",
