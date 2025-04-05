@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Actinium Browser</title>
+  </head>
+  <body>
+
+    <header class="browser-toolbar">
+      <div class="tabs-area">
+        <div class="tabs-container" id="tabs-container">
+          <!-- Tabs will be added here -->
+          <button class="add-tab-button" id="add-tab" title="New Tab">+</button>
+        </div>
+      </div>
+      <div class="address-bar-area">
+        <input type="text" class="address-bar" id="address-bar"
+          placeholder="Enter search query or URL">
+        <button class="popout-button" id="popout-button"
+          title="Open Original URL in New Tab" disabled>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px"
+            viewBox="0 0 24 24" width="24px" fill="currentColor">
+            <path d="M0 0h24v24H0V0z" fill="none" />
+            <path
+              d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="content-area" id="content-area">
+      <!-- Iframes and Welcome Screens will be added here -->
+    </main>
+
+    <p class="actinium-info">Actinium v1.0 - Made by BitonicDev</p>
+  </body>
+  <script src="index.js"></script>
+</html>
