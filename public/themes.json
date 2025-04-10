@@ -1,1 +1,68 @@
-
+{
+    "actinium": {
+        "--bg-color": "#10101d",
+        "--ui-bg": "#202035",
+        "--ui-darker-bg": "#181828",
+        "--border-color": "#303045",
+        "--text-color": "#aaaaff",
+        "--accent-color": "#7070aa",
+        "--accent2-color": "#ffaaaa",
+        "--placeholder-color": "#7777aa",
+        "--shadow-color": "rgba(0, 0, 0, 0.3)"
+    },
+    "deep-sea": {
+        "--bg-color": "#0a192f",
+        "--ui-bg": "#172a45",
+        "--ui-darker-bg": "#112240",
+        "--border-color": "#2a4066",
+        "--text-color": "#ccd6f6",
+        "--accent-color": "#64ffda",
+        "--accent2-color": "#ff6b6b",
+        "--placeholder-color": "#8892b0",
+        "--shadow-color": "rgba(0, 0, 0, 0.4)"
+    },
+    "shadow": {
+        "--bg-color": "#101010",
+        "--ui-bg": "#202020",
+        "--ui-darker-bg": "#181818",
+        "--border-color": "#303030",
+        "--text-color": "#aaaaaa",
+        "--accent-color": "#707070",
+        "--accent2-color": "#ffffff",
+        "--placeholder-color": "#777777",
+        "--shadow-color": "rgba(0, 0, 0, 0.3)"
+    },
+    "rose": {
+        "--bg-color": "#1d101d",
+        "--ui-bg": "#352035",
+        "--ui-darker-bg": "#281828",
+        "--border-color": "#453045",
+        "--text-color": "#ffaaff",
+        "--accent-color": "#aa70aa",
+        "--accent2-color": "#aaffaa",
+        "--placeholder-color": "#aa77aa",
+        "--shadow-color": "rgba(0, 0, 0, 0.3)"
+    },
+    "classic-dark": {
+        "--bg-color": "#1d1d1d",
+        "--ui-bg": "#353535",
+        "--ui-darker-bg": "#282828",
+        "--border-color": "#454545",
+        "--text-color": "#ffffff",
+        "--accent-color": "#ffffff",
+        "--accent2-color": "#aaaaaa",
+        "--placeholder-color": "#aaaaaa",
+        "--shadow-color": "rgba(0, 0, 0, 0.3)"
+    },
+    "paper-light": {
+        "--bg-color": "#fafafa",
+        "--ui-bg": "#dadada",
+        "--ui-darker-bg": "#cacaca",
+        "--border-color": "#bababa",
+        "--text-color": "#000000",
+        "--accent-color": "#000000",
+        "--accent2-color": "#6d6d6d",
+        "--placeholder-color": "#6d6d6d",
+        "--shadow-color": "rgba(0, 0, 0, 0.3)"
+    }
+}
