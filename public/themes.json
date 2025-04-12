@@ -49,16 +49,6 @@
     "--tab-active-bg": "rgba(112, 112, 112, 0.3)",
     "--particle-color": "rgba(128, 128, 128, 0.5)"
   },
-  "Matrix Theme": {
-    "--primary-color": "#00ff00",
-    "--text-color": "#00ff00",
-    "--background-color": "#000000",
-    "--muted-color": "#00ff00",
-    "--border-color": "#00ff00",
-    "--tab-hover-bg": "rgba(0, 255, 0, 0.15)",
-    "--tab-active-bg": "rgba(0, 255, 0, 0.3)",
-    "--particle-color": "#00ff00"
-  },
   "Rose Gold": {
     "--primary-color": "#ffccff",
     "--text-color": "#ffccff",
