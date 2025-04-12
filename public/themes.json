@@ -1,68 +1,82 @@
 {
-    "actinium": {
-        "--bg-color": "#10101d",
-        "--ui-bg": "#202035",
-        "--ui-darker-bg": "#181828",
-        "--border-color": "#303045",
-        "--text-color": "#aaaaff",
-        "--accent-color": "#7070aa",
-        "--accent2-color": "#ffaaaa",
-        "--placeholder-color": "#7777aa",
-        "--shadow-color": "rgba(0, 0, 0, 0.3)"
-    },
-    "deep-sea": {
-        "--bg-color": "#0a192f",
-        "--ui-bg": "#172a45",
-        "--ui-darker-bg": "#112240",
-        "--border-color": "#2a4066",
-        "--text-color": "#ccd6f6",
-        "--accent-color": "#64ffda",
-        "--accent2-color": "#ff6b6b",
-        "--placeholder-color": "#8892b0",
-        "--shadow-color": "rgba(0, 0, 0, 0.4)"
-    },
-    "shadow": {
-        "--bg-color": "#101010",
-        "--ui-bg": "#202020",
-        "--ui-darker-bg": "#181818",
-        "--border-color": "#303030",
-        "--text-color": "#aaaaaa",
-        "--accent-color": "#707070",
-        "--accent2-color": "#ffffff",
-        "--placeholder-color": "#777777",
-        "--shadow-color": "rgba(0, 0, 0, 0.3)"
-    },
-    "rose": {
-        "--bg-color": "#1d101d",
-        "--ui-bg": "#352035",
-        "--ui-darker-bg": "#281828",
-        "--border-color": "#453045",
-        "--text-color": "#ffaaff",
-        "--accent-color": "#aa70aa",
-        "--accent2-color": "#aaffaa",
-        "--placeholder-color": "#aa77aa",
-        "--shadow-color": "rgba(0, 0, 0, 0.3)"
-    },
-    "classic-dark": {
-        "--bg-color": "#1d1d1d",
-        "--ui-bg": "#353535",
-        "--ui-darker-bg": "#282828",
-        "--border-color": "#454545",
-        "--text-color": "#ffffff",
-        "--accent-color": "#ffffff",
-        "--accent2-color": "#aaaaaa",
-        "--placeholder-color": "#aaaaaa",
-        "--shadow-color": "rgba(0, 0, 0, 0.3)"
-    },
-    "paper-light": {
-        "--bg-color": "#fafafa",
-        "--ui-bg": "#dadada",
-        "--ui-darker-bg": "#cacaca",
-        "--border-color": "#bababa",
-        "--text-color": "#000000",
-        "--accent-color": "#000000",
-        "--accent2-color": "#6d6d6d",
-        "--placeholder-color": "#6d6d6d",
-        "--shadow-color": "rgba(0, 0, 0, 0.3)"
-    }
+  "Actinium": {
+    "--primary-color": "#9999ff",
+    "--text-color": "#e6e6ff",
+    "--background-color": "#1a1a33",
+    "--muted-color": "#8a8acc",
+    "--border-color": "rgba(140, 140, 255, 0.35)",
+    "--tab-hover-bg": "rgba(140, 140, 255, 0.2)",
+    "--tab-active-bg": "rgba(140, 140, 255, 0.35)",
+    "--particle-color": "rgba(150, 150, 255, 0.55)"
+  },
+  "Actinium Shadow": {
+    "--primary-color": "#8080ff",
+    "--text-color": "#e0e0ff",
+    "--background-color": "#0a0a23",
+    "--muted-color": "#7070bb",
+    "--border-color": "rgba(112, 112, 255, 0.3)",
+    "--tab-hover-bg": "rgba(112, 112, 255, 0.15)",
+    "--tab-active-bg": "rgba(112, 112, 255, 0.3)",
+    "--particle-color": "rgba(128, 128, 255, 0.5)"
+  },
+  "Outer Space": {
+    "--primary-color": "#ffffff",
+    "--text-color": "#ffffff",
+    "--background-color": "#000000",
+    "--muted-color": "#aaaaaa",
+    "--border-color": "rgba(255, 255, 255, 0.3)",
+    "--tab-hover-bg": "rgba(255, 255, 255, 0.15)",
+    "--tab-active-bg": "rgba(255, 255, 255, 0.3)",
+    "--particle-color": "rgba(255, 255, 255, 0.5)"
+  },
+  "Ocean Dark": {
+    "--primary-color": "#88ccff",
+    "--text-color": "#88ccff",
+    "--background-color": "#0a1a2a",
+    "--muted-color": "#66aadd",
+    "--border-color": "rgba(128, 192, 255, 0.3)",
+    "--tab-hover-bg": "rgba(128, 192, 255, 0.15)",
+    "--tab-active-bg": "rgba(128, 192, 255, 0.3)",
+    "--particle-color": "rgba(128, 192, 255, 0.5)"
+  },
+  "Shadow": {
+    "--primary-color": "#aaaaaa",
+    "--text-color": "#e0e0e0",
+    "--background-color": "#0a0a0a",
+    "--muted-color": "#707070",
+    "--border-color": "rgba(112, 112, 112, 0.3)",
+    "--tab-hover-bg": "rgba(112, 112, 112, 0.15)",
+    "--tab-active-bg": "rgba(112, 112, 112, 0.3)",
+    "--particle-color": "rgba(128, 128, 128, 0.5)"
+  },
+  "Matrix Theme": {
+    "--primary-color": "#00ff00",
+    "--text-color": "#00ff00",
+    "--background-color": "#000000",
+    "--muted-color": "#00ff00",
+    "--border-color": "#00ff00",
+    "--tab-hover-bg": "rgba(0, 255, 0, 0.15)",
+    "--tab-active-bg": "rgba(0, 255, 0, 0.3)",
+    "--particle-color": "#00ff00"
+  },
+  "Rose Gold": {
+    "--primary-color": "#ffccff",
+    "--text-color": "#ffccff",
+    "--background-color": "#2a1a2a",
+    "--muted-color": "#ddaadd",
+    "--border-color": "rgba(255, 192, 255, 0.3)",
+    "--tab-hover-bg": "rgba(255, 192, 255, 0.15)",
+    "--tab-active-bg": "rgba(255, 192, 255, 0.3)",
+    "--particle-color": "rgba(255, 192, 255, 0.5)"
+  },
+  "Emerald Dark": {
+    "--primary-color": "#aaffcc",
+    "--text-color": "#aaffcc",
+    "--background-color": "#0a2a1a",
+    "--muted-color": "#88ddaa",
+    "--border-color": "rgba(160, 255, 192, 0.3)",
+    "--tab-hover-bg": "rgba(160, 255, 192, 0.15)",
+    "--tab-active-bg": "rgba(160, 255, 192, 0.3)",
+    "--particle-color": "rgba(160, 255, 192, 0.5)"
+  }
 }
