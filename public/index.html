@@ -1,328 +1,555 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actinium Proxy</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Segoe UI", sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actinium Proxy</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #8080ff;
+      --text-color: #e0e0ff;
+      --background-color: #0a0a23;
+      --muted-color: #7070bb;
+      --border-color: rgba(112, 112, 255, 0.3);
+      --tab-hover-bg: rgba(112, 112, 255, 0.15);
+      --tab-active-bg: rgba(112, 112, 255, 0.3);
+      --particle-color: rgba(128, 128, 255, 0.5);
+      --transition-duration: 0.3s;
+      --transition-ease: ease;
+    }
 
-        :root {
-            --bg-color: #10101d;
-            --ui-bg: #202035;
-            --ui-darker-bg: #181828;
-            --content-bg: #1c1c2e;
-            --border-color: #303045;
-            --text-color: #aaaaff;
-            --accent-color: #7070aa;
-            --accent2-color: #ffaaaa;
-            --placeholder-color: #7777aa;
-            --shadow-color: rgba(0, 0, 0, 0.3);
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
 
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
+    body {
+      height: 100vh;
+      background: var(--background-color);
+      color: var(--text-color);
+      display: flex;
+      overflow: hidden;
+      position: relative;
+    }
 
-        body {
-            background: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            font-size: 16px;
-            align-items: center;
-        }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.4;
+    }
 
-        header {
-            width: 100%;
-            background: var(--ui-bg);
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-        }
+    .sidebar {
+      width: 60px;
+      height: 100%;
+      border-right: 1px solid var(--border-color);
+      background: var(--background-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 0;
+      transition: width var(--transition-duration) var(--transition-ease);
+      z-index: 2;
+    }
 
-        .header-buttons {
-            display: flex;
-            gap: 1rem;
-        }
+    .sidebar.expanded {
+      width: 200px;
+      align-items: flex-start;
+      padding-left: 0;
+    }
 
-        .header-button {
-            padding: 0.5rem 1rem;
-            background: var(--ui-darker-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            color: var(--text-color);
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+      width: 100%;
+      justify-content: center;
+    }
 
-        .header-button:hover {
-            background: var(--border-color);
-        }
+    .sidebar.expanded .sidebar-header {
+      justify-content: flex-start;
+      padding-left: 0.75rem;
+    }
 
-        .settings-panel {
-            display: none;
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 100%;
-            background: var(--ui-bg);
-            border-left: 1px solid var(--border-color);
-            padding: 1rem;
-            overflow-y: auto;
-        }
+    .sidebar-toggle {
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      font-size: 1.4rem;
+      cursor: pointer;
+      transition: opacity 0.2s var(--transition-ease);
+    }
 
-        .settings-panel.active {
-            display: block;
-        }
+    .sidebar-toggle:hover {
+      opacity: 0.8;
+    }
 
-        .settings-panel h2 {
-            margin-bottom: 1rem;
-        }
+    .sidebar-header span {
+      display: none;
+      opacity: 0;
+      color: var(--text-color);
+      font-size: 0.95rem;
+      transition: opacity var(--transition-duration) var(--transition-ease) 0.1s;
+    }
 
-        .theme-select {
-            width: 100%;
-            padding: 0.5rem;
-            background: var(--ui-darker-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            color: var(--text-color);
-            margin-bottom: 1rem;
-        }
+    .sidebar.expanded .sidebar-header span {
+      display: inline;
+      opacity: 1;
+    }
 
-        .search-container {
-            flex: 1;
-            width: 100%;
-            max-width: 600px;
-            padding: 2rem;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+    .sidebar-tab {
+      width: 100%;
+      padding: 0.8rem 0.75rem;
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-color);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: background 0.2s var(--transition-ease);
+    }
 
-        .title {
-            font-size: 2.5rem;
-            font-weight: normal;
-            color: var(--text-color);
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-        }
+    .sidebar-tab:first-child {
+      border-top: 1px solid var(--border-color);
+    }
 
-        .icon {
-            width: 3rem;
-            height: 3rem;
-        }
+    .sidebar:not(.expanded) .sidebar-tab {
+      justify-content: center;
+    }
 
-        .icon path, .icon circle {
-            stroke: var(--text-color);
-            stroke-width: 1.5;
-            fill: none;
-        }
+    .sidebar-tab:hover {
+      background: var(--tab-hover-bg);
+    }
 
-        .search-bar {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            background: var(--ui-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-color);
-            font-size: 1.125rem;
-            outline: none;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 1.5rem;
-        }
+    .sidebar-tab.active {
+      background: var(--tab-active-bg);
+    }
 
-        .search-bar:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 5px var(--accent-color);
-        }
+    .sidebar-tab i {
+      font-size: 1.2rem;
+      width: 30px;
+      text-align: center;
+    }
 
-        .search-bar::placeholder {
-            color: var(--placeholder-color);
-        }
+    .sidebar-tab span {
+      display: none;
+      opacity: 0;
+      transition: opacity var(--transition-duration) var(--transition-ease) 0.1s;
+    }
 
-        .message {
-            opacity: 1;
-            transition: opacity 0.25s ease;
-            margin-top: 0;
-            max-width: 100%;
-            font-size: 0.95rem;
-            color: var(--accent-color);
-        }
+    .sidebar.expanded .sidebar-tab span {
+      display: inline;
+      opacity: 1;
+    }
 
-        .message.fade-out {
-            opacity: 0;
-        }
+    .content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      overflow-y: auto;
+    }
 
-        .actinium-info {
-            position: fixed;
-            bottom: 5px;
-            right: 10px;
-            font-size: 0.8rem;
-            color: var(--accent-color);
-            opacity: 0.6;
-        }
-    </style>
+    .tab-content {
+      display: none;
+      max-width: 700px;
+      width: 90%;
+      animation: fadeIn 0.5s var(--transition-ease-out);
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .search-container {
+      text-align: center;
+    }
+
+    .title {
+      font-size: 2.8rem;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      color: var(--text-color);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .icon {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .icon path,
+    .icon circle {
+      stroke: var(--primary-color);
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      color: var(--text-color);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color var(--transition-duration) var(--transition-ease);
+    }
+
+    .search-bar:focus {
+      border-color: var(--primary-color);
+    }
+
+    .search-bar::placeholder {
+      color: var(--muted-color);
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: var(--primary-color);
+      opacity: 0.8;
+    }
+
+    .placeholder-message {
+      font-size: 1.1rem;
+      color: var(--primary-color);
+      text-align: center;
+    }
+
+    .settings-container {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .settings-container label {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+
+    .settings-container select {
+      width: 100%;
+      padding: 0.8rem;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-color);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color var(--transition-duration) var(--transition-ease);
+    }
+
+    .settings-container select:focus {
+      border-color: var(--primary-color);
+    }
+
+    .settings-container select option {
+      background: var(--background-color);
+      color: var(--text-color);
+    }
+
+    .actinium-info {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 0.7rem;
+      color: var(--muted-color);
+      opacity: 0.6;
+      z-index: 1;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .sidebar {
+        width: 50px;
+      }
+
+      .sidebar.expanded {
+        width: 160px;
+      }
+
+      .title {
+        font-size: 2rem;
+      }
+
+      .icon {
+        width: 2.2rem;
+        height: 2.2rem;
+      }
+
+      .search-bar {
+        padding: 0.8rem 1rem;
+      }
+
+      .settings-container select {
+        padding: 0.6rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <div class="header-buttons">
-            <button class="header-button" id="games-btn">Games</button>
-            <button class="header-button" id="apps-btn">Apps</button>
-            <button class="header-button" id="settings-btn">Settings</button>
-        </div>
-    </header>
-    <div class="search-container">
+  <canvas id="particle-bg"></canvas>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <button class="sidebar-toggle" id="sidebar-toggle"><i
+          class="fas fa-bars"></i></button>
+      <span>Navigation</span>
+    </div>
+    <button class="sidebar-tab active" data-tab="search"><i
+        class="fas fa-magnifying-glass"></i><span>Search</span></button>
+    <button class="sidebar-tab" data-tab="games"><i
+        class="fas fa-gamepad"></i><span>Games</span></button>
+    <button class="sidebar-tab" data-tab="apps"><i
+        class="fas fa-mobile-alt"></i><span>Apps</span></button>
+    <button class="sidebar-tab" data-tab="settings"><i
+        class="fas fa-cog"></i><span>Settings</span></button>
+  </div>
+  <div class="content">
+    <div class="tab-content active" id="search">
+      <div class="search-container">
         <h1 class="title">
-            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="2" />
-                <path d="M 14 12 L 22 12 A 10 10 0 0 1 17 20.66 L 13 13.73" />
-                <path d="M 14 12 L 22 12 A 10 10 0 0 1 17 20.66 L 13 13.73" transform="rotate(120 12 12)" />
-                <path d="M 14 12 L 22 12 A 10 10 0 0 1 17 20.66 L 13 13.73" transform="rotate(240 12 12)" />
-            </svg>
-            Actinium <span style="color: var(--accent2-color);">Proxy</span>
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="2" />
+            <path d="M 14 12 L 22 12 A 10 10 0 0 1 17 20.66 L 13 13.73" />
+            <path d="M 14 12 L 22 12 A 10 10 0 0 1 17 20.66 L 13 13.73"
+              transform="rotate(120 12 12)" />
+            <path d="M 14 12 L 22 12 A 10 10 0 0 1 17 20.66 L 13 13.73"
+              transform="rotate(240 12 12)" />
+          </svg>
+          Actinium Proxy
         </h1>
-        <input type="text" class="search-bar" placeholder="Enter a search query or URL">
-        <p class="message">Actinium is one of the only proxies to not rely upon Ultraviolet or others.</p>
+        <input type="text" class="search-bar"
+          placeholder="Search or enter a URL">
+        <p class="message">Actinium is one of the only proxies to not rely on
+          pre-made Web Proxy frameworks.</p>
+      </div>
     </div>
-    <div class="settings-panel" id="settings-panel">
-        <h2>Settings</h2>
-        <label for="theme-select">Theme:</label>
-        <select id="theme-select" class="theme-select">
-            <!-- Themes will be populated via JavaScript -->
+    <div class="tab-content" id="games">
+      <p class="placeholder-message">Games coming soon! Stay tuned.</p>
+    </div>
+    <div class="tab-content" id="apps">
+      <p class="placeholder-message">Apps coming soon! Stay tuned.</p>
+    </div>
+    <div class="tab-content" id="settings">
+      <div class="settings-container">
+        <label for="theme-select">Select Theme</label>
+        <select id="theme-select">
+          <option value="actinium" selected>Actinium</option>
         </select>
+      </div>
     </div>
-    <p class="actinium-info">Actinium Proxy v1.0 - Made by BitonicDev</p>
+  </div>
+  <p class="actinium-info">Actinium Proxy v1.0 - Made by BitonicDev</p>
 
-    <script>
-        const searchBar = document.querySelector('.search-bar');
-        const messageElement = document.querySelector('.message');
-        const baseUrl = `${window.location.protocol}//${window.location.host}/proxy?url=`;
-        const settingsBtn = document.getElementById('settings-btn');
-        const settingsPanel = document.getElementById('settings-panel');
-        const themeSelect = document.getElementById('theme-select');
-        const gamesBtn = document.getElementById('games-btn');
-        const appsBtn = document.getElementById('apps-btn');
-        let themes = {};
+  <script>
+    const canvas = document.getElementById( 'particle-bg' );
+    const ctx = canvas.getContext( '2d' );
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-        const messages = [
-            "Actinium is one of the only proxies to not rely upon Ultraviolet or others.",
-            "Actinium supports routing traffic through TOR nodes (the dark web)!",
-            "Actinium encrypts all internet traffic, ensuring that you stay undetected and secure.",
-            "Actinium is highly optimized, sometimes faster than if you didn't use a proxy!",
-            "Actinium provides advanced emulators, allowing you to play console games!"
-        ];
+    const particles = [];
+    const particleCount = ( canvas.width + canvas.height ) / 6;
+    const particleSpeedFactor = 0.2;
+    const messageFadeDuration = 300;
+    const messageCycleInterval = 4000;
 
-        function performSearch(input) {
-            if (!input) return;
+    let themes = {};
 
-            if (input.endsWith('.onion')) {
-                searchBar.value = '';
-                searchBar.placeholder = ".onion addresses not supported yet.";
-                setTimeout(() => searchBar.placeholder = "Enter a search query or URL", 2000);
-                return;
-            }
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = 2;
+        this.speedX = Math.random() * particleSpeedFactor -
+          particleSpeedFactor / 2;
+        this.speedY = Math.random() * particleSpeedFactor -
+          particleSpeedFactor / 2;
+      }
 
-            const isUrl = input.includes('.') || input.includes(':') || input.startsWith('localhost');
-            const url = isUrl 
-                ? (input.match(/^https?:\/\//) ? input : `http://${input}`)
-                : `https://www.mojeek.com/search?q=${encodeURIComponent(input)}`;
-            
-            window.location.href = `${baseUrl}${encodeURIComponent(url)}`;
-        }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
 
-        function cycleMessages() {
-            let index = 0;
-            setInterval(() => {
-                messageElement.classList.add('fade-out');
-                setTimeout(() => {
-                    messageElement.textContent = messages[index = (index + 1) % messages.length];
-                    messageElement.classList.remove('fade-out');
-                }, 250);
-            }, 6000);
-        }
+        if ( this.x < 0 || this.x > canvas.width ) this.speedX *= -1;
+        if ( this.y < 0 || this.y > canvas.height ) this.speedY *= -1;
+      }
 
-        function applyTheme(themeName) {
-            const theme = themes[themeName];
-            if (theme) {
-                for (const [key, value] of Object.entries(theme)) {
-                    document.documentElement.style.setProperty(key, value);
-                }
-                // Save the selected theme to localStorage
-                localStorage.setItem('selectedTheme', themeName);
-            }
-        }
+      draw() {
+        ctx.fillStyle = getComputedStyle( document.documentElement )
+          .getPropertyValue( '--particle-color' ).trim();
+        ctx.beginPath();
+        ctx.arc( this.x, this.y, this.size, 0, Math.PI * 2 );
+        ctx.fill();
+      }
+    }
 
-        function populateThemes() {
-            fetch('themes.json')
-                .then(response => response.json())
-                .then(data => {
-                    themes = data;
-                    for (const themeName in themes) {
-                        const option = document.createElement('option');
-                        option.value = themeName;
-                        option.textContent = themeName.charAt(0).toUpperCase() + themeName.slice(1);
-                        themeSelect.appendChild(option);
-                    }
-                    // Load saved theme or default to 'actinium'
-                    const savedTheme = localStorage.getItem('selectedTheme') || 'actinium';
-                    themeSelect.value = savedTheme;
-                    applyTheme(savedTheme);
-                })
-                .catch(error => console.error('Error loading themes:', error));
-        }
+    function initParticles() {
+      for ( let i = 0; i < particleCount; i++ ) {
+        particles.push( new Particle() );
+      }
+    }
 
-        // Placeholder functionality for Games and Apps
-        function showComingSoon(feature) {
-            const originalText = messageElement.textContent;
-            messageElement.classList.add('fade-out');
-            setTimeout(() => {
-                messageElement.textContent = `${feature} coming soon! Stay tuned for updates.`;
-                messageElement.classList.remove('fade-out');
-                setTimeout(() => {
-                    messageElement.classList.add('fade-out');
-                    setTimeout(() => {
-                        messageElement.textContent = originalText;
-                        messageElement.classList.remove('fade-out');
-                    }, 250);
-                }, 3000);
-            }, 250);
-        }
+    function animateParticles() {
+      ctx.clearRect( 0, 0, canvas.width, canvas.height );
+      particles.forEach( particle => {
+        particle.update();
+        particle.draw();
+      } );
+      requestAnimationFrame( animateParticles );
+    }
 
-        settingsBtn.addEventListener('click', () => {
-            settingsPanel.classList.toggle('active');
-        });
+    initParticles();
+    animateParticles();
 
-        themeSelect.addEventListener('change', (e) => {
-            applyTheme(e.target.value);
-        });
+    window.addEventListener( 'resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    } );
 
-        gamesBtn.addEventListener('click', () => {
-            showComingSoon('Games');
-        });
+    const sidebar = document.getElementById( 'sidebar' );
+    const sidebarToggle = document.getElementById( 'sidebar-toggle' );
+    const tabs = document.querySelectorAll( '.sidebar-tab' );
+    const tabContents = document.querySelectorAll( '.tab-content' );
 
-        appsBtn.addEventListener('click', () => {
-            showComingSoon('Apps');
-        });
+    sidebarToggle.addEventListener( 'click', () => {
+      sidebar.classList.toggle( 'expanded' );
+    } );
 
-        searchBar.addEventListener('keypress', e => e.key === 'Enter' && performSearch(searchBar.value.trim()));
-        cycleMessages();
-        populateThemes();
-    </script>
+    tabs.forEach( tab => {
+      tab.addEventListener( 'click', () => {
+        tabs.forEach( t => t.classList.remove( 'active' ) );
+        tabContents.forEach( c => c.classList.remove( 'active' ) );
+        tab.classList.add( 'active' );
+        document.getElementById( tab.dataset.tab ).classList.add(
+          'active' );
+      } );
+    } );
+
+    const searchBar = document.querySelector( '.search-bar' );
+    const messageElement = document.querySelector( '.message' );
+    const baseUrl =
+      `${window.location.protocol}//${window.location.host}/proxy?url=`;
+    const onionNotSupportedMessage = ".onion addresses not supported yet.";
+    const defaultSearchPlaceholder = "Search or enter a URL";
+
+    const messages = [
+      "Actinium is one of the only proxies to not rely on pre-made Web Proxy frameworks.",
+      "Actinium encrypts all internet traffic, ensuring that you remain undetected and secure.",
+      "Actinium is highly optimized, sometimes just as fast as if you didn't use a proxy!",
+      "Actinium uses many different methods to ensure you can bypass even the most advanced restrictions.",
+      "Actinium is completely open-source, which means that you can be sure your data isn't being stolen."
+    ];
+
+    function performSearch( input ) {
+      if ( !input ) return;
+      const isUrl = input.includes( '.' ) || input.includes( ':' ) || input
+        .startsWith( 'localhost' );
+      const url = isUrl ?
+        ( input.match( /^https?:\/\// ) ? input : `http://${input}` ) :
+        `https://www.mojeek.com/search?q=${encodeURIComponent(input)}`;
+
+      window.location.href = `${baseUrl}${encodeURIComponent(url)}`;
+    }
+
+    function cycleMessages() {
+      let index = 0;
+      setInterval( () => {
+        messageElement.style.opacity = '0';
+        setTimeout( () => {
+          messageElement.textContent = messages[ index = ( index + 1 ) %
+            messages.length ];
+          messageElement.style.opacity = '0.8';
+        }, messageFadeDuration );
+      }, messageCycleInterval );
+    }
+
+    searchBar.addEventListener( 'keypress', e => e.key === 'Enter' &&
+      performSearch( searchBar.value.trim() ) );
+    cycleMessages();
+
+    const themeSelect = document.getElementById( 'theme-select' );
+
+    function populateThemeSelector( themes ) {
+      themeSelect.innerHTML = '';
+      Object.keys( themes ).forEach( theme => {
+        const option = document.createElement( 'option' );
+        option.value = theme;
+        option.textContent = theme;
+        themeSelect.appendChild( option );
+      } );
+    }
+
+    function applyTheme( themeName ) {
+      const theme = themes[ themeName ];
+      if ( theme ) {
+        Object.keys( theme ).forEach( property => {
+          document.documentElement.style.setProperty( property, theme[
+            property ] );
+        } );
+      }
+    }
+
+    fetch( '/themes.json' )
+      .then( response => {
+        if ( !response.ok ) throw new Error( 'Failed to load themes.json' );
+        return response.json();
+      } )
+      .then( data => {
+        themes = data;
+        populateThemeSelector( themes );
+
+        const savedTheme = localStorage.getItem( 'selectedTheme' ) ||
+          'Actinium';
+        applyTheme( savedTheme );
+        themeSelect.value = savedTheme;
+      } )
+      .catch( error => {
+        console.error( 'Error loading themes:', error );
+        applyTheme( 'Actinium' );
+      } );
+
+    themeSelect.addEventListener( 'change', ( e ) => {
+      const selectedTheme = e.target.value;
+      applyTheme( selectedTheme );
+      localStorage.setItem( 'selectedTheme', selectedTheme );
+    } );
+  </script>
 </body>
+
 </html>
