@@ -15,6 +15,45 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.raw({ type: ['application/octet-stream', 'multipart/form-data'], limit: '50mb' }));
 
+const isLocalNetwork = (url) => {
+    try {
+        const { hostname } = new URL(url);
+
+        if (hostname === 'localhost' || 
+            hostname.includes('localhost') || 
+            hostname.endsWith('.local') || 
+            hostname === '[::1]' || 
+            hostname === '::1') {
+            return true;
+        }
+
+        const privateIpRanges = [
+            /^127\.\d{1,3}\.\d{1,3}\.\d{1,3}$/,         // 127.0.0.0/8 (loopback)
+            /^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/,          // 10.0.0.0/8
+            /^172\.(1[6-9]|2[0-9]|3[0-1])\.\d{1,3}\.\d{1,3}$/, // 172.16.0.0/12
+            /^192\.168\.\d{1,3}\.\d{1,3}$/,             // 192.168.0.0/16
+            /^169\.254\.\d{1,3}\.\d{1,3}$/,             // 169.254.0.0/16 (APIPA)
+            /^100\.(6[4-9]|[7-9][0-9]|1[0-1][0-9]|12[0-7])\.\d{1,3}\.\d{1,3}$/, // 100.64.0.0/10 (CGNAT)
+            /^192\.0\.0\.\d{1,3}$/,                     // 192.0.0.0/24
+            /^192\.0\.2\.\d{1,3}$/,                     // 192.0.2.0/24 (TEST-NET-1)
+            /^198\.51\.100\.\d{1,3}$/,                  // 198.51.100.0/24 (TEST-NET-2)
+            /^203\.0\.113\.\d{1,3}$/,                   // 203.0.113.0/24 (TEST-NET-3)
+            /^198\.(1[8-9])\.\d{1,3}\.\d{1,3}$/,        // 198.18.0.0/15
+            /^fc[0-9a-f]{2}:[0-9a-f:]+$/i,             // fc00::/7 (Unique Local Addresses, IPv6)
+            /^fe80:[0-9a-f:]+$/i                       // fe80::/10 (Link-Local, IPv6)
+        ];
+
+        const ipPattern = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$|^[0-9a-f:]+$/i;
+        if (ipPattern.test(hostname)) {
+            return privateIpRanges.some(regex => regex.test(hostname));
+        }
+
+        return false;
+    } catch (e) {
+        return false;
+    }
+};
+
 const INJECTION_SCRIPT = `
 <script>
 (() => {
@@ -213,6 +252,10 @@ app.all(PROXY_ROUTE, async (req, res) => {
         targetUrl = urlObj.href;
     }
 
+    if (isLocalNetwork(targetUrl)) {
+        return res.status(403).send('Access to local network resources is forbidden');
+    }
+
     try {
         const headers = filterRequestHeaders(req.headers);
         headers['Host'] = new URL(targetUrl).host;
@@ -283,6 +326,12 @@ server.on('upgrade', (req, socket, head) => {
             const targetUrl = searchParams.get('url');
             if (!targetUrl) {
                 socket.write('HTTP/1.1 400 Bad Request\r\n\r\n');
+                socket.destroy();
+                return;
+            }
+
+            if (isLocalNetwork(targetUrl)) {
+                socket.write('HTTP/1.1 403 Forbidden\r\n\r\n');
                 socket.destroy();
                 return;
             }
