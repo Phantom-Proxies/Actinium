@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -205,6 +204,7 @@
       fill: none;
     }
 
+    /* Ultraviolet search input uses the same .search-bar class */
     .search-bar {
       width: 100%;
       padding: 1rem 1.5rem;
@@ -326,38 +326,30 @@
   <canvas id="particle-bg"></canvas>
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <button class="sidebar-toggle" id="sidebar-toggle"><i
-          class="fas fa-bars"></i></button>
+      <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
       <span>Navigation</span>
     </div>
-    <button class="sidebar-tab active" data-tab="search"><i
-        class="fas fa-magnifying-glass"></i><span>Search</span></button>
-    <button class="sidebar-tab" data-tab="games"><i
-        class="fas fa-gamepad"></i><span>Games</span></button>
-    <button class="sidebar-tab" data-tab="apps"><i
-        class="fas fa-mobile-alt"></i><span>Apps</span></button>
-    <button class="sidebar-tab" data-tab="settings"><i
-        class="fas fa-cog"></i><span>Settings</span></button>
+    <button class="sidebar-tab active" data-tab="search"><i class="fas fa-magnifying-glass"></i><span>Search</span></button>
+    <button class="sidebar-tab" data-tab="games"><i class="fas fa-gamepad"></i><span>Games</span></button>
+    <button class="sidebar-tab" data-tab="apps"><i class="fas fa-mobile-alt"></i><span>Apps</span></button>
+    <button class="sidebar-tab" data-tab="settings"><i class="fas fa-cog"></i><span>Settings</span></button>
   </div>
   <div class="content">
     <div class="tab-content active" id="search">
       <div class="search-container">
         <h1 class="title">
-          <svg class="icon" xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="2" />
-            <path d="M 14 12 L 22 12 A 10 10 0 0 1 17 20.66 L 13 13.73" />
-            <path d="M 14 12 L 22 12 A 10 10 0 0 1 17 20.66 L 13 13.73"
-              transform="rotate(120 12 12)" />
-            <path d="M 14 12 L 22 12 A 10 10 0 0 1 17 20.66 L 13 13.73"
-              transform="rotate(240 12 12)" />
+            <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73" />
+            <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73" transform="rotate(120 12 12)" />
+            <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73" transform="rotate(240 12 12)" />
           </svg>
           Actinium Proxy
         </h1>
-        <input type="text" class="search-bar"
-          placeholder="Search or enter a URL">
-        <p class="message">Actinium is one of the only proxies to not rely on
-          pre-made Web Proxy frameworks.</p>
+        <form id="uv-form">
+          <input id="uv-address" type="text" class="search-bar" placeholder="Search or enter a URL" maxlength="2048" title="Search" role="combobox" required>
+        </form>
+        <p class="message">Actinium is one of the only proxies to not rely on pre-made Web Proxy frameworks.</p>
       </div>
     </div>
     <div class="tab-content" id="games">
@@ -376,180 +368,130 @@
     </div>
   </div>
   <p class="actinium-info">Actinium Proxy v1.0 - Made by BitonicDev</p>
-
   <script>
-    const canvas = document.getElementById( 'particle-bg' );
-    const ctx = canvas.getContext( '2d' );
+    const canvas = document.getElementById('particle-bg');
+    const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
     const particles = [];
-    const particleCount = ( canvas.width + canvas.height ) / 6;
+    const particleCount = (canvas.width + canvas.height) / 6;
     const particleSpeedFactor = 0.2;
-    const messageFadeDuration = 300;
-    const messageCycleInterval = 4000;
-
-    let themes = {};
 
     class Particle {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = 2;
-        this.speedX = Math.random() * particleSpeedFactor -
-          particleSpeedFactor / 2;
-        this.speedY = Math.random() * particleSpeedFactor -
-          particleSpeedFactor / 2;
+        this.speedX = Math.random() * particleSpeedFactor - particleSpeedFactor / 2;
+        this.speedY = Math.random() * particleSpeedFactor - particleSpeedFactor / 2;
       }
-
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
-
-        if ( this.x < 0 || this.x > canvas.width ) this.speedX *= -1;
-        if ( this.y < 0 || this.y > canvas.height ) this.speedY *= -1;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
       }
-
       draw() {
-        ctx.fillStyle = getComputedStyle( document.documentElement )
-          .getPropertyValue( '--particle-color' ).trim();
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--particle-color').trim();
         ctx.beginPath();
-        ctx.arc( this.x, this.y, this.size, 0, Math.PI * 2 );
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
     function initParticles() {
-      for ( let i = 0; i < particleCount; i++ ) {
-        particles.push( new Particle() );
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
       }
     }
 
     function animateParticles() {
-      ctx.clearRect( 0, 0, canvas.width, canvas.height );
-      particles.forEach( particle => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(particle => {
         particle.update();
         particle.draw();
-      } );
-      requestAnimationFrame( animateParticles );
+      });
+      requestAnimationFrame(animateParticles);
     }
 
     initParticles();
     animateParticles();
 
-    window.addEventListener( 'resize', () => {
+    window.addEventListener('resize', () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-    } );
+    });
 
-    const sidebar = document.getElementById( 'sidebar' );
-    const sidebarToggle = document.getElementById( 'sidebar-toggle' );
-    const tabs = document.querySelectorAll( '.sidebar-tab' );
-    const tabContents = document.querySelectorAll( '.tab-content' );
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const tabs = document.querySelectorAll('.sidebar-tab');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-    sidebarToggle.addEventListener( 'click', () => {
-      sidebar.classList.toggle( 'expanded' );
-    } );
-
-    tabs.forEach( tab => {
-      tab.addEventListener( 'click', () => {
-        tabs.forEach( t => t.classList.remove( 'active' ) );
-        tabContents.forEach( c => c.classList.remove( 'active' ) );
-        tab.classList.add( 'active' );
-        document.getElementById( tab.dataset.tab ).classList.add(
-          'active' );
-      } );
-    } );
-
-    const searchBar = document.querySelector( '.search-bar' );
-    const messageElement = document.querySelector( '.message' );
-    const baseUrl =
-      `${window.location.protocol}//${window.location.host}/proxy?url=`;
-    const onionNotSupportedMessage = ".onion addresses not supported yet.";
-    const defaultSearchPlaceholder = "Search or enter a URL";
-
-    const messages = [
-      "Actinium is one of the only proxies to not rely on pre-made Web Proxy frameworks.",
-      "Actinium encrypts all internet traffic, ensuring that you remain undetected and secure.",
-      "Actinium is highly optimized, sometimes just as fast as if you didn't use a proxy!",
-      "Actinium uses many different methods to ensure you can bypass even the most advanced restrictions.",
-      "Actinium is completely open-source, which means that you can be sure your data isn't being stolen."
-    ];
-
-    function performSearch( input ) {
-      if ( !input ) return;
-      const isUrl = input.includes( '.' ) || input.includes( ':' ) || input
-        .startsWith( 'localhost' );
-      const url = isUrl ?
-        ( input.match( /^https?:\/\// ) ? input : `http://${input}` ) :
-        `https://www.mojeek.com/search?q=${encodeURIComponent(input)}`;
-
-      window.location.href = `${baseUrl}${encodeURIComponent(url)}`;
+    if (sidebarToggle) {
+      sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('expanded');
+      });
     }
 
-    function cycleMessages() {
-      let index = 0;
-      setInterval( () => {
-        messageElement.style.opacity = '0';
-        setTimeout( () => {
-          messageElement.textContent = messages[ index = ( index + 1 ) %
-            messages.length ];
-          messageElement.style.opacity = '0.8';
-        }, messageFadeDuration );
-      }, messageCycleInterval );
-    }
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+      });
+    });
 
-    searchBar.addEventListener( 'keypress', e => e.key === 'Enter' &&
-      performSearch( searchBar.value.trim() ) );
-    cycleMessages();
+    // Theme Selection
+    const themeSelect = document.getElementById('theme-select');
+    let themes = {};
 
-    const themeSelect = document.getElementById( 'theme-select' );
-
-    function populateThemeSelector( themes ) {
+    function populateThemeSelector(themes) {
       themeSelect.innerHTML = '';
-      Object.keys( themes ).forEach( theme => {
-        const option = document.createElement( 'option' );
+      Object.keys(themes).forEach(theme => {
+        const option = document.createElement('option');
         option.value = theme;
         option.textContent = theme;
-        themeSelect.appendChild( option );
-      } );
+        themeSelect.appendChild(option);
+      });
     }
 
-    function applyTheme( themeName ) {
-      const theme = themes[ themeName ];
-      if ( theme ) {
-        Object.keys( theme ).forEach( property => {
-          document.documentElement.style.setProperty( property, theme[
-            property ] );
-        } );
+    function applyTheme(themeName) {
+      const theme = themes[themeName];
+      if (theme) {
+        Object.keys(theme).forEach(property => {
+          document.documentElement.style.setProperty(property, theme[property]);
+        });
       }
     }
 
-    fetch( '/themes.json' )
-      .then( response => {
-        if ( !response.ok ) throw new Error( 'Failed to load themes.json' );
+    fetch('/themes.json')
+      .then(response => {
+        if (!response.ok) throw new Error('Failed to load themes.json');
         return response.json();
-      } )
-      .then( data => {
+      })
+      .then(data => {
         themes = data;
-        populateThemeSelector( themes );
-
-        const savedTheme = localStorage.getItem( 'selectedTheme' ) ||
-          'Actinium';
-        applyTheme( savedTheme );
+        populateThemeSelector(themes);
+        const savedTheme = localStorage.getItem('selectedTheme') || 'Actinium';
+        applyTheme(savedTheme);
         themeSelect.value = savedTheme;
-      } )
-      .catch( error => {
-        console.error( 'Error loading themes:', error );
-        applyTheme( 'Actinium' );
-      } );
+      })
+      .catch(error => {
+        console.error('Error loading themes:', error);
+        applyTheme('Actinium');
+      });
 
-    themeSelect.addEventListener( 'change', ( e ) => {
+    themeSelect.addEventListener('change', (e) => {
       const selectedTheme = e.target.value;
-      applyTheme( selectedTheme );
-      localStorage.setItem( 'selectedTheme', selectedTheme );
-    } );
+      applyTheme(selectedTheme);
+      localStorage.setItem('selectedTheme', selectedTheme);
+    });
   </script>
+  <script src="/@/uv.bundle.js"></script>
+  <script src="/@/uv.config.js"></script>
+  <script src="index.js"></script>
 </body>
 
 </html>
