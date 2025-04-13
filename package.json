@@ -7,7 +7,7 @@
         "node": ">=16.0.0"
     },
     "scripts": {
-        "start": "node server.js"
+        "start": "node index.js"
     },
     "author": "dyamuh + bitonicdev",
     "license": "MIT",
