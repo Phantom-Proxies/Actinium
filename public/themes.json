@@ -49,6 +49,16 @@
     "--tab-active-bg": "rgba(112, 112, 112, 0.3)",
     "--particle-color": "rgba(128, 128, 128, 0.5)"
   },
+  "Super-User": {
+    "--primary-color": "#33ffcc",
+    "--text-color": "#33ffcc",
+    "--background-color": "#000a00",
+    "--muted-color": "#00aa77",
+    "--border-color": "rgba(0, 255, 192, 0.3)",
+    "--tab-hover-bg": "rgba(0, 255, 192, 0.15)",
+    "--tab-active-bg": "rgba(0, 255, 192, 0.3)",
+    "--particle-color": "rgba(0, 255, 192, 0.5)"
+  },
   "Rose Gold": {
     "--primary-color": "#ffccff",
     "--text-color": "#ffccff",
