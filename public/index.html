@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,14 +12,14 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
     :root {
-      --primary-color: #8080ff;
-      --text-color: #e0e0ff;
-      --background-color: #0a0a23;
-      --muted-color: #7070bb;
-      --border-color: rgba(112, 112, 255, 0.3);
-      --tab-hover-bg: rgba(112, 112, 255, 0.15);
-      --tab-active-bg: rgba(112, 112, 255, 0.3);
-      --particle-color: rgba(128, 128, 255, 0.5);
+      --primary-color: #9999ff;
+      --text-color: #e6e6ff;
+      --background-color: #1a1a33;
+      --muted-color: #8a8acc;
+      --border-color: rgba(140, 140, 255, 0.3);
+      --tab-hover-bg: rgba(140, 140, 255, 0.15);
+      --tab-active-bg: rgba(140, 140, 255, 0.3);
+      --particle-color: rgba(150, 150, 255, 0.5);
     }
 
     * {
@@ -713,7 +714,7 @@
             <h3>Appearance</h3>
             <label for="theme-select">Select Theme</label>
             <select id="theme-select">
-              <option value="actinium" selected>Actinium</option>
+              <option value="nebula" selected>Nebula</option>
             </select>
           </div>
           <div class="settings-tab-content" id="cloaking">
@@ -857,7 +858,7 @@
     }
 
     function loadSettings() {
-      const savedTheme = localStorage.getItem( 'selectedTheme' ) || 'actinium';
+      const savedTheme = localStorage.getItem( 'selectedTheme' ) || 'nebula';
       const savedTitle = localStorage.getItem( 'pageTitle' ) ||
         'Actinium Proxy';
       const savedFavicon = localStorage.getItem( 'pageFavicon' ) || '';
