@@ -1,60 +1,62 @@
-"use strict";
+// Sorry for not using wisp, I know bare is dumb and outdated and I promise wisp in the future.
 
-const form = document.getElementById("uv-form"),
-      address = document.getElementById("uv-address"),
-      searchEngine = document.getElementById("uv-search-engine"),
-      error = document.getElementById("uv-error"),
-      errorCode = document.getElementById("uv-error-code"),
-      input = document.querySelector("input");
+//import needed stuff
+import express from 'express';
+import cors from 'cors';
+import path from 'node:path';
+import http from 'node:http';
+import { hostname } from "node:os";
+import { createBareServer } from "@tomphttp/bare-server-node";
+// wisp is being dumb
+// import { createWispServer } from '@mercuryworkshop/wisp-js/server';
 
-class crypts {
-    static encode(str) {
-        return encodeURIComponent([...str].map((c, i) => i % 2 ? String.fromCharCode(c.charCodeAt() ^ 2) : c).join(""));
-    }
-    static decode(str) {
-        if (str.endsWith("/")) str = str.slice(0, -1);
-        return decodeURIComponent([...str].map((c, i) => i % 2 ? String.fromCharCode(c.charCodeAt() ^ 2) : c).join(""));
-    }
-}
+// const
+const server = http.createServer();
+const app = express(server);
+const bareServer = createBareServer('/bare/');
+// define port number here
+const PORT = 80
+const __dirname = process.cwd();
 
-const search = (input) => {
-    input = input.trim();
-    let searchUrl = `https://www.duckduckgo.com/search?q=${encodeURIComponent(input)}`;
-    try {
-        return new URL(input).toString();
-    } catch {
-        try {
-            let url = new URL(`http://${input}`);
-            if (url.hostname.includes(".")) return url.toString();
-        } catch {}
-    }
-    return searchUrl;
-};
+//file pathing & using cors and express
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
+app.use(cors());
+app.use("uv", express.static(__dirname + '/@'));
+app.use(express.static(__dirname + '/public'));
 
-if ("serviceWorker" in navigator) {
-    let proxy = { file: "/@/sw.js", config: __uv$config };
-    navigator.serviceWorker.register(proxy.file, { scope: proxy.config.prefix })
-        .then(reg => {
-            console.log("ServiceWorker registered:", reg.scope);
-            form.addEventListener("submit", event => {
-                event.preventDefault();
-                location.href = proxy.config.prefix + crypts.encode(search(address.value));
-            });
-        })
-        .catch(err => console.error("ServiceWorker registration failed:", err));
-}
-
-document.addEventListener("click", event => {
-    let target = event.target.closest(".proxy-link, img");
-    if (!target) return;
-
-    event.preventDefault();
-    let url = target.getAttribute("data-url") || target.src;
-    if (url) {
-        let proxiedUrl = __uv$config.prefix + crypts.encode(url);
-        window.location.href = proxiedUrl;
-    }
+// normal url points to html file
+app.get('/', (req, res) => {
+    res.sendFile(path.join(process.cwd(), '/public/index.html'));
 });
 
-console.log(proxy.config.prefix);
+// bare request
+server.on('request', (req, res) => {
+    if (bareServer.shouldRoute(req)) {
+        bareServer.routeRequest(req, res)
+      } else {
+        app(req, res)
+      }
+})
 
+// bare 
+server.on("upgrade", (req, socket, head) => {
+    bare.routeRequest(req, socket, head);
+});
+
+// running!
+server.on('listening', () => {
+  const address = server.address();
+  console.log(`Listening on port 6969.`)
+})
+
+//when stopped:
+server.listen({ port: PORT, })
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
+function shutdown() {
+  console.log("Stopped or timed out..look in console for more information.");
+  server.close();
+  bareServer.close();
+  process.exit(0);
+}
