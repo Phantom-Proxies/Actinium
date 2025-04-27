@@ -36,7 +36,7 @@ server.on("upgrade", (req, socket, head) => {
 
 server.on('listening', () => {
   const address = server.address();
-  console.log(`Listening on port 6969.`)
+  console.log(`Listening on port ${PORT}.`)
 })
 
 server.listen({ port: PORT, })
