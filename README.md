@@ -1,5 +1,5 @@
 Actinium proxy is a completely stand-alone, and fast proxy made by Phantom Network.
-It is mainly developed by BitonicDev
+It is mainly developed by BitonicDev & Dyamuh
 ## Deployment
 
 ```bash
