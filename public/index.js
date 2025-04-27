@@ -19,7 +19,7 @@ class crypts {
 
 const search = (input) => {
     input = input.trim();
-    let searchUrl = `https://www.duckduckgo.com/search?q=${encodeURIComponent(input)}`;
+    let searchUrl = `https://www.mojeek.com/search?q=${encodeURIComponent(input)}`;
     try {
         return new URL(input).toString();
     } catch {
