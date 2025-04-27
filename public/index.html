@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,6 +33,7 @@
       background: var(--background-color);
       color: var(--text-color);
       display: flex;
+      flex-direction: column;
       overflow: hidden;
       position: relative;
     }
@@ -48,11 +48,61 @@
       opacity: 0.4;
     }
 
+    .header {
+      backdrop-filter: blur(3px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 3;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .header-logo svg {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .header-button {
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+    }
+
+    .header-button:hover {
+      background: var(--tab-hover-bg);
+    }
+
+    .main-container {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
     .sidebar {
       width: 60px;
       height: 100%;
       border-right: 1px solid var(--border-color);
-      background: var(--background-color);
+      backdrop-filter: blur(3px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -210,6 +260,7 @@
       width: 100%;
       padding: 1rem 1.5rem;
       background: transparent;
+      backdrop-filter: blur(3px);
       border: 1px solid var(--border-color);
       border-radius: 10px;
       color: var(--text-color);
@@ -233,16 +284,10 @@
       opacity: 0.8;
     }
 
-    .placeholder-message {
-      font-size: 1.1rem;
-      color: var(--primary-color);
-      text-align: center;
-    }
-
     .settings-container {
       width: 100%;
       max-width: 400px;
-      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(3px);
       padding: 1.5rem;
       border-radius: 12px;
       border: 1px solid var(--border-color);
@@ -395,6 +440,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      backdrop-filter: blur(3px);
       justify-content: center;
       min-height: 100%;
       width: 100%;
@@ -413,6 +459,19 @@
     }
 
     @media (max-width: 600px) {
+      .header {
+        padding: 0.75rem 1rem;
+      }
+
+      .header-logo {
+        font-size: 1.1rem;
+      }
+
+      .header-logo svg {
+        width: 1.75rem;
+        height: 1.75rem;
+      }
+
       .sidebar {
         width: 50px;
       }
@@ -464,223 +523,211 @@
 
 <body>
   <canvas id="particle-bg"></canvas>
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <button class="sidebar-toggle" id="sidebar-toggle"><i
-          class="fas fa-bars"></i></button>
-      <span>Navigation</span>
+  <header class="header">
+    <div class="header-logo">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="2" />
+        <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73" />
+        <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73"
+          transform="rotate(120 12 12)" />
+        <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73"
+          transform="rotate(240 12 12)" />
+      </svg>
+      Actinium Proxy
     </div>
-    <button class="sidebar-tab active" data-tab="search"><i
-        class="fas fa-magnifying-glass"></i><span>Search</span></button>
-    <button class="sidebar-tab" data-tab="games"><i
-        class="fas fa-gamepad"></i><span>Games</span></button>
-    <button class="sidebar-tab" data-tab="apps"><i
-        class="fas fa-mobile-alt"></i><span>Apps</span></button>
-    <button class="sidebar-tab" data-tab="settings"><i
-        class="fas fa-cog"></i><span>Settings</span></button>
-  </div>
-  <div class="content">
-    <div class="tab-content active" id="search">
-      <div class="search-container">
-        <h1 class="title">
-          <svg class="icon" xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="2" />
-            <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73" />
-            <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73"
-              transform="rotate(120 12 12)" />
-            <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73"
-              transform="rotate(240 12 12)" />
-          </svg>
-          Actinium Proxy
-        </h1>
-        <form id="uv-form">
-          <input id="uv-address" type="text" class="search-bar"
-            placeholder="Search or enter a URL" maxlength="2048" title="Search"
-            role="combobox" required>
-        </form>
-        <p class="message">Actinium is designed to be minimal yet capable, ensuring that you can browse unrestricted and secure with no delays.</p>
+    <div class="header-actions">
+      <button class="header-button" id="discord-button"
+        data-url="https://discord.gg/PyDyJ6nQ"><i class="fab fa-discord"></i>
+        Discord</button>
+      <button class="header-button" id="panic-button"><i
+          class="fas fa-exclamation-triangle"></i> Panic</button>
+      <button class="header-button" id="quick-settings"><i
+          class="fas fa-cog"></i> Settings</button>
+    </div>
+  </header>
+  <div class="main-container">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <button class="sidebar-toggle" id="sidebar-toggle"><i
+            class="fas fa-bars"></i></button>
+        <span>Navigation</span>
       </div>
+      <button class="sidebar-tab active" data-tab="search"><i
+          class="fas fa-magnifying-glass"></i><span>Search</span></button>
+      <button class="sidebar-tab" data-tab="games"><i
+          class="fas fa-gamepad"></i><span>Games</span></button>
+      <button class="sidebar-tab" data-tab="apps"><i
+          class="fas fa-mobile-alt"></i><span>Apps</span></button>
+      <button class="sidebar-tab" data-tab="settings"><i
+          class="fas fa-cog"></i><span>Settings</span></button>
     </div>
-    <div class="tab-content" id="games">
-      <div class="games-apps-container">
-        <h1 class="title">
-          <svg class="icon" xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="2" />
-            <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73" />
-            <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73"
-              transform="rotate(120 12 12)" />
-            <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73"
-              transform="rotate(240 12 12)" />
-          </svg>
-          Actinium Games
-        </h1>
-        <div class="item-grid">
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://imgs.crazygames.com/games/1v1-lol/cover-1585728351086.png"
-              alt="1v1.lol">
-            <div class="item-title">1v1.lol</div>
-            <!-- https://1v1.lol/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://images.crazygames.com/games/2048/cover_16x9-1707828856995.png">
-            <div class="item-title">2048</div>
-            <!-- https://play2048.co/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://tcf.admeen.org/game/15500/15045/400x246/agar-io.jpg">
-            <div class="item-title">Agar.io</div>
-            <!-- https://agar.io/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://www.droidgamers.com/wp-content/uploads/2019/02/bitlife.jpg">
-            <div class="item-title">BitLife</div>
-            <!-- https://lagged.com/games/bitlife-v2/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://defly.io/img/facebook-share.png">
-            <div class="item-title">defly.io</div>
-            <!-- https://defly.io/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner" src="https://i.redd.it/m8inn7n0q34a1.png">
-            <div class="item-title">scenexe2.io</div>
-            <!-- https://scenexe2.io/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://www.chess.com/bundles/web/images/offline-play/standardboard.png">
-            <div class="item-title">Chess.com</div>
-            <!-- https://www.chess.com/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://upload.wikimedia.org/wikipedia/en/0/06/Cookie_Clicker_logo.png">
-            <div class="item-title">Cookie Clicker</div>
-            <!-- https://orteil.dashnet.org/cookieclicker/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://i.ytimg.com/vi/vDCZbHKIni8/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAtiLVnMeF_79jF_U9_UgzzNzlHCw">
-            <div class="item-title">Undertale</div>
-            <!-- https://www.autistici.org/burnedprojects/UNDERTALE/ -->
-          </div>
+    <div class="content">
+      <div class="tab-content active" id="search">
+        <div class="search-container">
+          <h1 class="title">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="2" />
+              <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73" />
+              <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73"
+                transform="rotate(120 12 12)" />
+              <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73"
+                transform="rotate(240 12 12)" />
+            </svg>
+            Actinium Proxy
+          </h1>
+          <form id="uv-form">
+            <input id="uv-address" type="text" class="search-bar"
+              placeholder="Search or enter a URL" maxlength="2048"
+              title="Search" role="combobox" required>
+          </form>
+          <p class="message">Actinium is designed to be minimal yet capable,
+            ensuring that you can browse unrestricted and secure with no delays.
+          </p>
         </div>
       </div>
-    </div>
-    <div class="tab-content" id="apps">
-      <div class="games-apps-container">
-        <h1 class="title">
-          <svg class="icon" xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="2" />
-            <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73" />
-            <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73"
-              transform="rotate(120 12 12)" />
-            <path d="M14 12 L22 12 A10 10 0 0 1 17 20.66 L13 13.73"
-              transform="rotate(240 12 12)" />
-          </svg>
-          Actinium Apps
-        </h1>
-        <div class="item-grid">
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://brandmentions.com/wiki/images/e/ec/Mojeek.png"
-              alt="Mojeek Search">
-            <div class="item-title">Mojeek Search</div>
-            <!-- https://www.mojeek.com/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://daeboganmusic.com/wp-content/uploads/2017/03/youtube.jpg"
-              alt="YouTube">
-            <div class="item-title">YouTube</div>
-            <!-- https://www.youtube.com/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://www.scdn.co/i/_global/open-graph-default.png"
-              alt="Spotify">
-            <div class="item-title">Spotify</div>
-            <!-- https://open.spotify.com/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2025/03/discord-logo.jpg"
-              alt="Discord">
-            <div class="item-title">Discord</div>
-            <!-- https://discord.com/app -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
-              alt="Reddit">
-            <div class="item-title">Reddit</div>
-            <!-- https://www.reddit.com/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202212/instagram-users-irked-with-the-new-update-sixteen_nine.jpg?size=1200:675"
-              alt="Instagram">
-            <div class="item-title">Instagram</div>
-            <!-- https://www.instagram.com/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://cdn.prod.website-files.com/5c29380b1110ec92a203aa84/5dede154cad2171df5e07412_image.png"
-              alt="TikTok">
-            <div class="item-title">TikTok</div>
-            <!-- https://www.tiktok.com/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://venturebeat.com/wp-content/uploads/2023/05/Untitled-design-78.png"
-              alt="ChatGPT">
-            <div class="item-title">ChatGPT</div>
-            <!-- https://chatgpt.com/ -->
-          </div>
-          <div class="item-card">
-            <img class="item-banner"
-              src="https://s.yimg.com/ny/api/res/1.2/9JLVkjGp23vqiR29fV3CFA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTM2MA--/https://s.yimg.com/os/creatr-uploaded-images/2025-04/16b55720-16ff-11f0-afff-83e5c291230a"
-              alt="Grok">
-            <div class="item-title">Grok</div>
-            <!-- https://grok.com/ -->
+      <div class="tab-content" id="games">
+        <div class="games-apps-container">
+          <div class="item-grid">
+            <div class="item-card" data-url="https://1v1.lol/">
+              <img class="item-banner"
+                src="https://imgs.crazygames.com/games/1v1-lol/cover-1585728351086.png"
+                alt="1v1.lol">
+              <div class="item-title">1v1.lol</div>
+            </div>
+            <div class="item-card" data-url="https://play2048.co/">
+              <img class="item-banner"
+                src="https://images asterisks.crazygames.com/games/2048/cover_16x9-1707828856995.png">
+              <div class="item-title">2048</div>
+            </div>
+            <div class="item-card" data-url="https://agar.io/">
+              <img class="item-banner"
+                src="https://tcf.admeen.org/game/15500/15045/400x246/agar-io.jpg">
+              <div class="item-title">Agar.io</div>
+            </div>
+            <div class="item-card"
+              data-url="https://lagged.com/games/bitlife-v2/">
+              <img class="item-banner"
+                src="https://www.droidgamers.com/wp-content/uploads/2019/02/bitlife.jpg">
+              <div class="item-title">BitLife</div>
+            </div>
+            <div class="item-card" data-url="https://defly.io/">
+              <img class="item-banner"
+                src="https://defly.io/img/facebook-share.png">
+              <div class="item-title">defly.io</div>
+            </div>
+            <div class="item-card" data-url="https://scenexe2.io/">
+              <img class="item-banner"
+                src="https://i.redd.it/m8inn7n0q34a1.png">
+              <div class="item-title">scenexe2.io</div>
+            </div>
+            <div class="item-card" data-url="https://www.chess.com/">
+              <img class="item-banner"
+                src="https://www.chess.com/bundles/web/images/offline-play/standardboard.png">
+              <div class="item-title">Chess.com</div>
+            </div>
+            <div class="item-card"
+              data-url="https://orteil.dashnet.org/cookieclicker/">
+              <img class="item-banner"
+                src="https://upload.wikimedia.org/wikipedia/en/0/06/Cookie_Clicker_logo.png">
+              <div class="item-title">Cookie Clicker</div>
+            </div>
+            <div class="item-card"
+              data-url="https://www.autistici.org/burnedprojects/UNDERTALE/">
+              <img class="item-banner"
+                src="https://i.ytimg.com/vi/vDCZbHKIni8/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAtiLVnMeF_79jF_U9_UgzzNzlHCw">
+              <div class="item-title">Undertale</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="tab-content" id="settings">
-      <div class="settings-container">
-        <div class="settings-tabs">
-          <button class="settings-tab active"
-            data-settings-tab="appearance">Appearance</button>
-          <button class="settings-tab"
-            data-settings-tab="cloaking">Cloaking</button>
+      <div class="tab-content" id="apps">
+        <div class="games-apps-container">
+          <div class="item-grid">
+            <div class="item-card" data-url="https://www.mojeek.com/">
+              <img class="item-banner"
+                src="https://brandmentions.com/wiki/images/e/ec/Mojeek.png"
+                alt="Mojeek Search">
+              <div class="item-title">Mojeek Search</div>
+            </div>
+            <div class="item-card" data-url="https://www.youtube.com/">
+              <img class="item-banner"
+                src="https://daeboganmusic.com/wp-content/uploads/2017/03/youtube.jpg"
+                alt="YouTube">
+              <div class="item-title">YouTube</div>
+            </div>
+            <div class="item-card" data-url="https://open.spotify.com/">
+              <img class="item-banner"
+                src="https://www.scdn.co/i/_global/open-graph-default.png"
+                alt="Spotify">
+              <div class="item-title">Spotify</div>
+            </div>
+            <div class="item-card" data-url="https://discord.com/app">
+              <img class="item-banner"
+                src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2025/03/discord-logo.jpg"
+                alt="Discord">
+              <div class="item-title">Discord</div>
+            </div>
+            <div class="item-card" data-url="https://www.reddit.com/">
+              <img class="item-banner"
+                src="https://martech.org/wp-content/uploads/2014/07/reddit-combo-1920.png"
+                alt="Reddit">
+              <div class="item-title">Reddit</div>
+            </div>
+            <div class="item-card" data-url="https://www.instagram.com/">
+              <img class="item-banner"
+                src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202212/instagram-users-irked-with-the-new-update-sixteen_nine.jpg?size=1200:675"
+                alt="Instagram">
+              <div class="item-title">Instagram</div>
+            </div>
+            <div class="item-card" data-url="https://www.tiktok.com/">
+              <img class="item-banner"
+                src="https://cdn.prod.website-files.com/5c29380b1110ec92a203aa84/5dede154cad2171df5e07412_image.png"
+                alt="TikTok">
+              <div class="item-title">TikTok</div>
+            </div>
+            <div class="item-card" data-url="https://chatgpt.com/">
+              <img class="item-banner"
+                src="https://venturebeat.com/wp-content/uploads/2023/05/Untitled-design-78.png"
+                alt="ChatGPT">
+              <div class="item-title">ChatGPT</div>
+            </div>
+            <div class="item-card" data-url="https://grok.com/">
+              <img class="item-banner"
+                src="https://s.yimg.com/ny/api/res/1.2/9JLVkjGp23vqiR29fV3CFA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTM2MA--/https://s.yimg.com/os/creatr-uploaded-images/2025-04/16b55720-16ff-11f0-afff-83e5c291230a"
+                alt="Grok">
+              <div class="item-title">Grok</div>
+            </div>
+          </div>
         </div>
-        <div class="settings-tab-content active" id="appearance">
-          <h3>Appearance</h3>
-          <label for="theme-select">Select Theme</label>
-          <select id="theme-select">
-            <option value="actinium" selected>Actinium</option>
-          </select>
-        </div>
-        <div class="settings-tab-content" id="cloaking">
-          <h3>Cloaking</h3>
-          <label for="page-title">Page Title</label>
-          <input id="page-title" type="text" class="search-bar"
-            placeholder="Enter page title" value="Actinium Proxy">
-          <label for="page-favicon">Page Favicon URL</label>
-          <input id="page-favicon" type="text" class="search-bar"
-            placeholder="Enter favicon URL">
-          <div class="cloak-buttons">
-            <button class="cloak-button" id="ab-cloak">AB Cloak</button>
-            <button class="cloak-button" id="blob-cloak">Blob Cloak</button>
+      </div>
+      <div class="tab-content" id="settings">
+        <div class="settings-container">
+          <div class="settings-tabs">
+            <button class="settings-tab active"
+              data-settings-tab="appearance">Appearance</button>
+            <button class="settings-tab"
+              data-settings-tab="cloaking">Cloaking</button>
+          </div>
+          <div class="settings-tab-content active" id="appearance">
+            <h3>Appearance</h3>
+            <label for="theme-select">Select Theme</label>
+            <select id="theme-select">
+              <option value="actinium" selected>Actinium</option>
+            </select>
+          </div>
+          <div class="settings-tab-content" id="cloaking">
+            <h3>Cloaking</h3>
+            <label for="page-title">Page Title</label>
+            <input id="page-title" type="text" class="search-bar"
+              placeholder="Enter page title" value="Actinium Proxy">
+            <label for="page-favicon">Page Favicon URL</label>
+            <input id="page-favicon" type="text" class="search-bar"
+              placeholder="Enter favicon URL">
+            <div class="cloak-buttons">
+              <button class="cloak-button" id="ab-cloak">AB Cloak</button>
+              <button class="cloak-button" id="blob-cloak">Blob Cloak</button>
+            </div>
           </div>
         </div>
       </div>
@@ -688,6 +735,7 @@
   </div>
   <p class="actinium-info">Actinium Proxy v1.0 - Made by BitonicDev & dyamuh</p>
   <script>
+    // Particle Background
     const canvas = document.getElementById( 'particle-bg' );
     const ctx = canvas.getContext( '2d' );
     canvas.width = window.innerWidth;
@@ -745,6 +793,7 @@
       canvas.height = window.innerHeight;
     } );
 
+    // Sidebar and Tabs
     const sidebar = document.getElementById( 'sidebar' );
     const sidebarToggle = document.getElementById( 'sidebar-toggle' );
     const tabs = document.querySelectorAll( '.sidebar-tab' );
@@ -791,7 +840,8 @@
       Object.keys( themes ).forEach( theme => {
         const option = document.createElement( 'option' );
         option.value = theme;
-        option.textContent = theme;
+        option.textContent = theme.charAt( 0 ).toUpperCase() + theme.slice(
+          1 );
         themeSelect.appendChild( option );
       } );
     }
@@ -807,7 +857,7 @@
     }
 
     function loadSettings() {
-      const savedTheme = localStorage.getItem( 'selectedTheme' ) || 'Actinium';
+      const savedTheme = localStorage.getItem( 'selectedTheme' ) || 'actinium';
       const savedTitle = localStorage.getItem( 'pageTitle' ) ||
         'Actinium Proxy';
       const savedFavicon = localStorage.getItem( 'pageFavicon' ) || '';
@@ -832,7 +882,7 @@
       } )
       .catch( error => {
         console.error( 'Error loading themes:', error );
-        applyTheme( 'Actinium' );
+        applyTheme( 'actinium' );
         loadSettings();
       } );
 
@@ -940,6 +990,45 @@
 
     abCloakButton.addEventListener( 'click', () => openCloak( 'ab' ) );
     blobCloakButton.addEventListener( 'click', () => openCloak( 'blob' ) );
+
+    // Header Actions
+    const panicButton = document.getElementById( 'panic-button' );
+    const discordButton = document.getElementById( 'discord-button' );
+    const quickSettings = document.getElementById( 'quick-settings' );
+
+    panicButton.addEventListener( 'click', () => {
+      window.location.replace( 'https://www.google.com' );
+    } );
+
+    discordButton.addEventListener( 'click', () => {
+      const url = discordButton.dataset.url;
+      if ( url ) {
+        document.getElementById( 'uv-address' ).value = url;
+        document.getElementById( 'uv-form' ).dispatchEvent( new Event(
+          'submit' ) );
+      }
+    } );
+
+    quickSettings.addEventListener( 'click', () => {
+      tabs.forEach( t => t.classList.remove( 'active' ) );
+      tabContents.forEach( c => c.classList.remove( 'active' ) );
+      document.querySelector( '.sidebar-tab[data-tab="settings"]' )
+        .classList.add( 'active' );
+      document.getElementById( 'settings' ).classList.add( 'active' );
+    } );
+
+    // Item Card Navigation
+    const itemCards = document.querySelectorAll( '.item-card' );
+    itemCards.forEach( card => {
+      card.addEventListener( 'click', () => {
+        const url = card.dataset.url;
+        if ( url ) {
+          document.getElementById( 'uv-address' ).value = url;
+          document.getElementById( 'uv-form' ).dispatchEvent( new Event(
+            'submit' ) );
+        }
+      } );
+    } );
   </script>
   <script src="/@/uv.bundle.js"></script>
   <script src="/@/uv.config.js"></script>
