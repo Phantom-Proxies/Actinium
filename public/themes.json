@@ -1,5 +1,5 @@
 {
-  "Actinium": {
+  "Nebula": {
     "--primary-color": "#9999ff",
     "--text-color": "#e6e6ff",
     "--background-color": "#1a1a33",
@@ -9,7 +9,7 @@
     "--tab-active-bg": "rgba(140, 140, 255, 0.35)",
     "--particle-color": "rgba(150, 150, 255, 0.55)"
   },
-  "Actinium Shadow": {
+  "Nebula Shadow": {
     "--primary-color": "#8080ff",
     "--text-color": "#e0e0ff",
     "--background-color": "#0a0a23",
@@ -29,7 +29,7 @@
     "--tab-active-bg": "rgba(255, 255, 255, 0.3)",
     "--particle-color": "rgba(255, 255, 255, 0.5)"
   },
-  "Ocean Dark": {
+  "Deep Sea": {
     "--primary-color": "#88ccff",
     "--text-color": "#88ccff",
     "--background-color": "#0a1a2a",
@@ -38,6 +38,16 @@
     "--tab-hover-bg": "rgba(128, 192, 255, 0.15)",
     "--tab-active-bg": "rgba(128, 192, 255, 0.3)",
     "--particle-color": "rgba(128, 192, 255, 0.5)"
+  },
+  "Ocean": {
+    "--primary-color": "#aaeeff",
+    "--text-color": "#aaeeff",
+    "--background-color": "#2a3a4a",
+    "--muted-color": "#88ccdd",
+    "--border-color": "rgba(160, 224, 255, 0.3)",
+    "--tab-hover-bg": "rgba(160, 224, 255, 0.15)",
+    "--tab-active-bg": "rgba(160, 224, 255, 0.3)",
+    "--particle-color": "rgba(160, 224, 255, 0.5)"
   },
   "Shadow": {
     "--primary-color": "#aaaaaa",
@@ -49,15 +59,25 @@
     "--tab-active-bg": "rgba(112, 112, 112, 0.3)",
     "--particle-color": "rgba(128, 128, 128, 0.5)"
   },
-  "Super-User": {
-    "--primary-color": "#33ffcc",
-    "--text-color": "#33ffcc",
-    "--background-color": "#000a00",
-    "--muted-color": "#00aa77",
-    "--border-color": "rgba(0, 255, 192, 0.3)",
-    "--tab-hover-bg": "rgba(0, 255, 192, 0.15)",
-    "--tab-active-bg": "rgba(0, 255, 192, 0.3)",
-    "--particle-color": "rgba(0, 255, 192, 0.5)"
+  "Stone": {
+    "--primary-color": "#ffffff",
+    "--text-color": "#ffffff",
+    "--background-color": "#333333",
+    "--muted-color": "#cccccc",
+    "--border-color": "rgba(255, 255, 255, 0.35)",
+    "--tab-hover-bg": "rgba(255, 255, 255, 0.2)",
+    "--tab-active-bg": "rgba(255, 255, 255, 0.35)",
+    "--particle-color": "rgba(255, 255, 255, 0.55)"
+  },
+  "Stone": {
+    "--primary-color": "#ffffff",
+    "--text-color": "#ffffff",
+    "--background-color": "#333333",
+    "--muted-color": "#cccccc",
+    "--border-color": "rgba(255, 255, 255, 0.35)",
+    "--tab-hover-bg": "rgba(255, 255, 255, 0.2)",
+    "--tab-active-bg": "rgba(255, 255, 255, 0.35)",
+    "--particle-color": "rgba(255, 255, 255, 0.55)"
   },
   "Rose Gold": {
     "--primary-color": "#ffccff",
@@ -78,5 +98,35 @@
     "--tab-hover-bg": "rgba(160, 255, 192, 0.15)",
     "--tab-active-bg": "rgba(160, 255, 192, 0.3)",
     "--particle-color": "rgba(160, 255, 192, 0.5)"
+  },
+  "Solar Flare": {
+    "--primary-color": "#ffaa55",
+    "--text-color": "#ffddaa",
+    "--background-color": "#2a1a0a",
+    "--muted-color": "#cc8844",
+    "--border-color": "rgba(255, 170, 85, 0.3)",
+    "--tab-hover-bg": "rgba(255, 170, 85, 0.15)",
+    "--tab-active-bg": "rgba(255, 170, 85, 0.3)",
+    "--particle-color": "rgba(255, 170, 85, 0.5)"
+  },
+  "Twilight": {
+    "--primary-color": "#bb99ff",
+    "--text-color": "#e6ccff",
+    "--background-color": "#1a0a2a",
+    "--muted-color": "#9977cc",
+    "--border-color": "rgba(187, 153, 255, 0.3)",
+    "--tab-hover-bg": "rgba(187, 153, 255, 0.15)",
+    "--tab-active-bg": "rgba(187, 153, 255, 0.3)",
+    "--particle-color": "rgba(187, 153, 255, 0.5)"
+  },
+  "Crimson Dark": {
+    "--primary-color": "#ff6666",
+    "--text-color": "#ffaaaa",
+    "--background-color": "#2a0a0a",
+    "--muted-color": "#cc5555",
+    "--border-color": "rgba(255, 102, 102, 0.3)",
+    "--tab-hover-bg": "rgba(255, 102, 102, 0.15)",
+    "--tab-active-bg": "rgba(255, 102, 102, 0.3)",
+    "--particle-color": "rgba(255, 102, 102, 0.5)"
   }
 }
