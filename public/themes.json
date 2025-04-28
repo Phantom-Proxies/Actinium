@@ -69,16 +69,6 @@
     "--tab-active-bg": "rgba(255, 255, 255, 0.35)",
     "--particle-color": "rgba(255, 255, 255, 0.55)"
   },
-  "Stone": {
-    "--primary-color": "#ffffff",
-    "--text-color": "#ffffff",
-    "--background-color": "#333333",
-    "--muted-color": "#cccccc",
-    "--border-color": "rgba(255, 255, 255, 0.35)",
-    "--tab-hover-bg": "rgba(255, 255, 255, 0.2)",
-    "--tab-active-bg": "rgba(255, 255, 255, 0.35)",
-    "--particle-color": "rgba(255, 255, 255, 0.55)"
-  },
   "Rose Gold": {
     "--primary-color": "#ffccff",
     "--text-color": "#ffccff",
