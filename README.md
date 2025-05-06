@@ -3,10 +3,17 @@ It is mainly developed by BitonicDev & Dyamuh
 ## Deployment
 
 ```bash
-npm install
+npm i
 npm start
 ```
-
+```bash
+yarn
+yarn start
+```
+```bash
+pnpm i
+pnpm start
+```
 Actinium Proxy can be easily deployed on services like:
 
 - Vercel
