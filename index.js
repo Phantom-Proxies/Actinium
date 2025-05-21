@@ -3,7 +3,6 @@ import cors from 'cors';
 import path from 'node:path';
 import http from 'node:http';
 import { createBareServer } from "@tomphttp/bare-server-node";
-import readline from 'node:readline';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -12,67 +11,11 @@ const app = express(server);
 const bareServer = createBareServer('/bare/');
 const PORT = 80;
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-async function promptForSubdomains() {
-	console.log("Pseudo-Subdomains are simulated and temporary subdomains that don't show up on DNS records.")
-	console.log("Press Enter immediately to skip pseudo-subdomains")
-  const subdomains = [];
-
-  async function ask() {
-    return new Promise((resolve) => {
-      rl.question('Enter a pseudo-subdomain or press Enter to finish: ', (answer) => {
-        if (answer.trim()) {
-          subdomains.push(answer.trim());
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      });
-    });
-  }
-
-  while (await ask()) {}
-  rl.close();
-  return subdomains;
-}
-
-function subdomainMiddleware(subdomains) {
-  return async (req, res, next) => {
-    try {
-      const host = req.headers.host || '';
-      const subdomain = host.split('.')[0];
-
-      if (subdomains.length > 0) {
-        if (subdomains.includes(subdomain)) {
-
-          next();
-        } else {
-
-          res.sendFile(path.join(__dirname, '/public/fake-index.html'));
-        }
-      } else {
-
-        next();
-      }
-    } catch {
-      next();
-    }
-  };
-}
-
 async function startServer() {
   try {
-    const subdomains = await promptForSubdomains();
-
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(cors());
-
-    app.use(subdomainMiddleware(subdomains));
 
     app.use("/uv", express.static(path.join(__dirname, '/@')));
     app.use(express.static(path.join(__dirname, '/public')));
